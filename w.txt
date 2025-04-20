@@ -1,0 +1,239 @@
+Waawaw, dégg naa la. Maa ngi lay jox léegi firnde gi ci Wolof bu leer, jukki bu nekk di nga xam li mu tax di jar ak li code bi déf ci biir notebook Jupyter bi nga won ma woon. Noo ngi koy defe ci nii:
+
+---
+
+**Li Njëkk (Avant Tout)**
+
+Code bii, dañu koy jëfandikoo ngir saytu dosiye bu tuddu `all_data_2025.csv`. Dosiye bii, am na ay njoxe (informations) ci komand yu ñu defe woon. Tool bi ñu di jëfandikoo ngir saytu bi mooy **Pandas**, tekkereef (bibliothèque) la ci Python buy maye ñu man a liggéey ak ay tabló njoxe (dataframes) ci anam gu yomb.
+
+---
+
+**Jukki bu njëkk bi (Cellule 1 / `In [1]`)**
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+*   **Li code bi déf:** Dafaay woo (importer) ay tekkereef yu ñu soxla.
+    *   `numpy`: Ñu koy woowe `np`. Lu bare ci ay cálkul yu xóot ci Matemátik ak Science moom lañu koy jëfandikoo.
+    *   `pandas`: Ñu koy woowe `pd`. Moom mooy tool bi ñuy jëfandikoo ngir liggéey ci tabló njoxe yi (DataFrame). Moom mooy bu am solo bi fii.
+    *   `matplotlib.pyplot`: Ñu koy woowe `plt`. Moom lañuy jëfandikoo ngir defar ay grafik (nataal yu melni histogrammes, bar charts, etc.).
+*   **Li mu tax di jar:** Dañu leen soxla ngir man a ubbi dosiye bi, man a defar ay tabló, man a def ay cálkul, te man a defar ay grafik yu leer. Ñoom lañuy jëfandikoo ci biir script bi bépp.
+
+---
+
+**Jukki bu ñaareel bi (Cellule 2 / `In [2]`)**
+
+```python
+file_path = 'all_data_2025.csv'
+try:
+    df = pd.read_csv(file_path)
+    # ... (Afficher les premières lignes et dimensions)
+except FileNotFoundError:
+    # ... (Message d'erreur)
+```
+
+*   **Li code bi déf:** Dafaay jël dosiye bu ñuy wax `all_data_2025.csv` di ko dugal ci biir program bi, te di ko def ci wenn warab (variable) bu tudd `df`. `df` mooy suñu *DataFrame* (tabló njoxe). Dafaay won itam liñ yi njëkk (5 yi njëkk) ak ni tabló bi tolle (ñaata liñ, ñaata koloŋ). Dafaay gis itam su fekkee dosiye bi amul.
+*   **Li mu tax di jar:** Fii lañuy tambalee liggéey bi. Suñu ubbiwul dosiye bi, munuñu ci dara def.
+
+---
+
+**Jukki bu ñetteel bi (Cellule 3 / `In [3]`)**
+
+```python
+unique_ids = df['Order ID'].nunique()
+```
+
+*   **Li code bi déf:** Dafaay xool ci koloŋ bi tuddu 'Order ID' (mooy nómbar bu komand bu nekk am), te di waññi ñaata nómbar yu wuutee ñoo fa nekk.
+*   **Li mu tax di jar:** Lii dafay jàppale ngir xam ndax am na ay komand yu ñu nara bind ñaari yoon walla ay problem yu mel noonu ci nómbar komand yi.
+
+---
+
+**Jukki bu ñeenteel ak Juróomeel bi (Cellules 4 & 5 / `In [4]`, `In [5]`)**
+
+```python
+masque_valid_rows = df['Order ID'] != 'Order ID'
+df_cleaned = df[masque_valid_rows].copy()
+```
+
+*   **Li code bi déf:** Xoolal, dosiye bi man naa am ay liñ yu doon bopp (en-têtes) yu ñu delloosi ci biir. Koloŋ bi tudd 'Order ID', su amee liñ bu ko defe mu nekk "Order ID" ci boppam, kon liñ boobu du njoxe bu baax. Kood bi dafay:
+    1.  Defar benn "mask" (li ñuy sukkandiku ngir filter) buy wax naka lañuy xàmmee liñ yu baax yi (yi nga xamne 'Order ID' du "Order ID").
+    2.  Jëfandikoo mask bi ngir jël rekk liñ yu baax yi, di leen def ci benn tabló bu bees bu tuddu `df_cleaned`. `.copy()` bi dafay tax ñu am suñu tabló bu bees te duñu laal bu njëkk bi.
+*   **Li mu tax di jar:** Lii dafay setal njoxe yi. Liñ yi doon ay bopp rekk te ñu delloosi leen, dañu leen war a dindi ngir suñuy cálkul bañ a juum.
+
+---
+
+**Jukki bu Juróom-benneel ak Juróom-ñaareel bi (Cellules 6 & 7 / `In [6]`, `In [7]`)**
+
+```python
+df_cleaned.isna().head()
+nan_counts = df_cleaned.isna().sum()
+```
+
+*   **Li code bi déf:** Fii, dañu koy saytu ndax am na ay "NaN" (Not a Number) ci biir tabló `df_cleaned` bi. NaN mooy tekki ne am na ay càmp (cases) yu neen, yu amul benn njoxe.
+    1.  `.isna()` dafay xool càmp bu nekk, su amul dara mu ne `True` (dëgg), su amee mu ne `False` (déet). `.head()` bi dafay won 5 liñ yu njëkk yi rekk.
+    2.  `.isna().sum()` dafay waññi, koloŋ bu nekk, ñaata `True` (ñaata càmp yu neen) ñoo fa nekk.
+*   **Li mu tax di jar:** War nañu xam fan yi la ay njoxe manke ngir man koo faj ci ginnaaw. Suñu bayyee NaN yi, suñuy cálkul man nañu juum walla program bi sax taxaw.
+
+---
+
+**Jukki bu Juróom-ñetteel bi (Cellule 8 & 18)**
+
+```python
+print(df_cleaned.columns)
+print(df_cleaned.dtypes)
+```
+
+*   **Li code bi déf:** Dafaay won turu koloŋ yépp yi nekk ci tabló `df_cleaned` bi, ak xeetu njoxe bu nekk ci koloŋ bu nekk (ndax text la, nómbar bu mat, nómbar ak fàtt, walla waxtu?).
+*   **Li mu tax di jar:** Lii dafay jàppale ngir xam naka la tabló bi tëdde, te xam ndax xeetu njoxe yi mat nañu pur li ñu bëgg a def. Mën nañu soxla soppi yenn xeetu njoxe yi.
+
+---
+
+**Jukki bu Juróom-ñeenteel ak Fukkeel bi (Cellules 9 & 10 / `In [9]`, `In [10]`)**
+
+```python
+df_cleaned.loc[:, 'Order Date'] = pd.to_datetime(df_cleaned['Order Date'], errors='coerce')
+print(df_cleaned.dtypes)
+```
+
+*   **Li code bi déf:** Koloŋ bi tudd 'Order Date' (Bésu komand bi), bi ñu ko ubbee, program bi xéj-na da koo jàppe ni text (mbadane). Kood bi dafay jël koloŋ boobu di ko soppi mu nekk xeetu "datetime" (bés ak waxtu). `errors='coerce'` mooy su fekkee gis na bénn date bu baaxul (bu ñu mënul a xam), na ko def `NaT` (Not a Time), moom itam melni NaN la (lu neen). `.loc` bi mooy ni ñu waree def suñuy soppi koloŋ ngir bañ am ay erreurs di ñëw. Ginnaw bi, mu dellu wonaat xeetu njoxe yi ngir ñu gis soppi bi.
+*   **Li mu tax di jar:** Suñu soxlaa liggéey ak ay bés walla ay weer (ni nu koy defe ci ginnaaw), war nañu njëkk soppi koloŋ bi mu nekk xeetu *datetime*.
+
+---
+
+**Jukki bu bees bi (Cellule Nouvelle - après 10)**
+
+```python
+nan_after_date_conversion = df_cleaned.isna().sum()
+```
+
+*   **Li code bi déf:** Dafaay dellu xoolati ñaata càmp yu neen ñoo nekk ci koloŋ bu nekk, ginnaaw bi ñu soppee 'Order Date'.
+*   **Li mu tax di jar:** Ndaxte `errors='coerce'` mën na yokk limu NaN yi su fekkee amoon na ay dates yu baaxul ci njëlbeen gi. Kon war nañoo xoolaat li fi nekk léegi.
+
+---
+
+**Jukki yu toppante yi (Cellules 14 à 17 / `In [14]` - `In [17]`)**
+
+```python
+# ... (Vérifier NaN)
+# ... (Afficher les lignes avec NaN - optionnel)
+df_final = df_cleaned.dropna()
+print(df_final.isna().sum())
+```
+
+*   **Li code bi déf:** Fii nag, dañuy jël tabló `df_cleaned` bi, te dindi *liñ yépp* yooyu am benn càmp bu neen (NaN) ci biir. Liñ boobu bépp dañu koy dindi. Tabló bu set bi ñu am nag, dañu koy tudde `df_final`. Ginnaaw bi, dañuy dellu kontrole ndax des na bénn NaN ci biir `df_final`.
+*   **Li mu tax di jar:** Léegi nag, tabló `df_final` bi set na wecc. Amul benn njoxe bu ci manke. Mën nañu ci def suñuy cálkul ak saytu ci anam gu wóor. Waaye, fii itam fàttaliku ne su fekkee njoxe yu baree manke woon, lii mën na tax ñu ñàkk ay liñ yu bare.
+
+---
+
+**Jukki yu toppante yi (Cellules 19 à 21 / `In [19]` - `In [21]`)**
+
+```python
+df_final.loc[:, 'Quantity Ordered'] = pd.to_numeric(df_final['Quantity Ordered']).astype('int')
+df_final.loc[:, 'Price Each'] = pd.to_numeric(df_final['Price Each']).astype('float')
+print(df_final.dtypes)
+```
+
+*   **Li code bi déf:** Koloŋ yi tudd 'Quantity Ordered' (Limu lu ñu komande) ak 'Price Each' (Njëgu benn), xéj-na dañu leen jàppe woon ni text. Kood bi dafay:
+    1.  Soppi 'Quantity Ordered' mu nekk nómbar bu mat (`int`). `pd.to_numeric` la njëkk def ngir mu xam ne nómbar la, ginnaaw bi mu ne `astype('int')`.
+    2.  Soppi 'Price Each' mu nekk nómbar ak fàtt (`float`, ndax njëg yi mën nañu am ay cëriñ). Moom itam `pd.to_numeric` la njëkk def.
+    Ginnaaw bi, mu dellu wonaat xeetu njoxe yi ngir ñu gis ne léegi ñoom ñaar nómbar lañu. `.loc` bi mooy ni ñu waree soppi koloŋ yi ci Pandas.
+*   **Li mu tax di jar:** Suñu bëggee def ay cálkul (ni melni yokk, waññi, wala yóbbante) ak lim yi ak njëg yi, war nañu njëkk soppi leen ñu nekk xeetu nómbar yu jaadu.
+
+---
+
+**Jukki bu fukkeel ak benneel bi (Cellule 11 & 25)**
+
+```python
+print(df_final.columns)
+```
+
+*   **Li code bi déf:** Dafaay wonaat rekk turu koloŋ yépp yi nekk ci tabló bu mujj bi (`df_final`).
+*   **Li mu tax di jar:** Ngir ñu gis naka la tabló bi mel léegi, ginnaaw bi ñu ko setalee te soppee xeetu njoxe yi.
+
+---
+
+**Jukki bu fukkeel ak ñetteel bi (Cellule 13 / `In [13]`)**
+
+```python
+display(df_final.head())
+```
+
+*   **Li code bi déf:** Dafaay won liñ yi njëkk (5 yi) ci tabló `df_final` bi nga xamne léegi set na te paré ngir ñu saytu ko.
+*   **Li mu tax di jar:** Ngir am gis-gis bu gaaw ci naka la njoxe yu set yi mel.
+
+---
+
+**Jukki yu toppante yi (Cellules 22 à 24 / `In [22]` - `In [24]`)**
+
+```python
+print(df_final['Order Date'].dt.month.head())
+df_final.loc[:, 'mois'] = df_final['Order Date'].dt.month
+print(df_final['mois'].head())
+```
+
+*   **Li code bi déf:** Fii, dañuy jël koloŋ bu bees di ko yokk ci tabló `df_final` bi. Koloŋ boobu, dañu koy tudde `mois`. Njoxe yi nekk ci koloŋ boobu mooy weeru bés bi komand bi amee. Kood bi dafay:
+    1.  Jël koloŋ 'Order Date' bi (nga xamne léegi *datetime* la).
+    2.  Jëfandikoo `.dt.month` ngir génne ci weeru bés bu nekk (1 ngir janvier, 2 ngir février, ..., 12 ngir décembre).
+    3.  Def njoxe boobu ci koloŋ bu bees bi tudd `mois`.
+    Ginnaaw bi mu won bu njëkk 5 weer yi.
+*   **Li mu tax di jar:** Lii dafay tax ñu man a gruppe (booloo) komand yi ci weer ngir man a xool weer wu nekk naka la liggéey bi demee woon (ñaata lañu jaay, ñaata koppar lañu am, etc.).
+
+---
+
+**Jukki yu toppante yi (Cellules 26 à 28 / `In [26]` - `In [28]`)**
+
+```python
+quantity_by_month = df_final.groupby('mois')['Quantity Ordered'].sum()
+best_month_quantity = quantity_by_month.idxmax()
+quantity_by_month.plot(kind='bar', ...)
+plt.show()
+```
+
+*   **Li code bi déf:** Fii dañuy saytu limu lu ñu komande ci weer wu nekk.
+    1.  `.groupby('mois')`: Dafaay booloo liñ yépp yi bokk weer.
+    2.  `['Quantity Ordered'].sum()`: Ci grup bu nekk (weer wu nekk), dafay jël koloŋ 'Quantity Ordered' bi te boole lim yépp (somme). Lii dafay joxe limu lu ñu komande ci weer wu nekk.
+    3.  `.idxmax()`: Dafaay xool ci lim yooyu ñu am ci weer wu nekk, te joxe nómbar weer wi gëna am limu lu ñu komande bu réy.
+    4.  `.plot(kind='bar')`: Dafaay defar benn grafik (histogramme à barres) buy won, weer wu nekk, ñaata lañu komande woon. `plt.show()` mooy tax grafik bi feeñ.
+*   **Li mu tax di jar:** Lii dafay maye ñu gis weer yi gëna néew jaay ak yi gëna bare jaay ci limu ayib (articles).
+
+---
+
+**Jukki yu toppante yi (Cellules 29 à 32 / `In [29]` - `In [32]`)**
+
+```python
+df_final.loc[:, 'chiffre_affaire'] = df_final['Quantity Ordered'] * df_final['Price Each']
+revenue_by_month = df_final.groupby('mois')['chiffre_affaire'].sum()
+best_month_revenue_id = revenue_by_month.idxmax()
+max_monthly_revenue = revenue_by_month.max()
+```
+
+*   **Li code bi déf:** Fii dañuy saytu koppar bi ñu am (chiffre d'affaires) ci weer wu nekk.
+    1.  `df_final['Quantity Ordered'] * df_final['Price Each']`: Dafaay defar benn koloŋ bu bees bu tudd `chiffre_affaire`. Koloŋ bii, liñ bu nekk, dafay jël limu lu ñu komande (Quantity Ordered) di ko yóbbante (multiplier) ak njëgu benn (Price Each). Lii mooy koppar bi ñu ame ci komand boobu.
+    2.  `.groupby('mois')`: Dafaay booloo liñ yi bokk weer.
+    3.  `['chiffre_affaire'].sum()`: Ci weer wu nekk, dafay boole koppar bi ñu am ci komand yépp yu amoon ci weer woowu. Lii dafay joxe koppar bi ñu am (chiffre d'affaires total) ci weer wu nekk.
+    4.  `.idxmax()`: Dafaay génne nómbar weer wi nga xamne ci lañu gëna am koppar bu bare.
+    5.  `.max()`: Dafaay joxe koppar bi gëna réy bi ñu am ci benn weer.
+*   **Li mu tax di jar:** Lii dafay maye ñu xam weer yi gëna am xaalis ak yi gëna néew xaalis ci njëgu jaay yi. Mën na wuute ak weer yi gëna bare ayib yi ñu jaay.
+
+---
+
+**Jukki bu mujj bi (Cellule Nouvelle - après 32)**
+
+```python
+revenue_by_month.plot(kind='bar', ...)
+plt.show()
+```
+
+*   **Li code bi déf:** Dafaay defar meneen grafik (histogramme à barres), waaye bii yoon, day won koppar bi (chiffre d'affaires) ñu am ci weer wu nekk.
+*   **Li mu tax di jar:** Ngir ñu gis ci nataal naka la koppar bi di yokkoo walla di wàññiku ci ay weer yi. Day gëna leer noonu que ci ay nómbar rekk.
+
+---
+
+**Tëj**
+
+Kon, liggéey bii yépp, li mu doon def mooy: ubbi dosiye bi, setal ko (dindi liñ yu bon yi ak yi am ay njoxe yu manke), soppi xeetu njoxe yi ngir ñu man cee cálkul, génne weer wi ci bésu komand bi, ginnaaw bi di saytu limu lu ñu jaay ak koppar bi ñu ci am ci weer wu nekk, te di ko won ci ay nómbar ak ci ay grafik.
+
+Yaakaar naa ne léegi leer na. Su amee leneen loo bëgg a xam ci biir, rekk laajal !
